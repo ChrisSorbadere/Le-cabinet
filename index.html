@@ -218,15 +218,15 @@
     <div class="levels" id="levels">
       <button class="level" data-level="1">
         <span class="roman">I</span>
-        <span><span class="name">Initié</span><div class="desc">Notions accessibles · 10 pts / question</div></span>
+        <span><span class="name">Connaisseur</span><div class="desc">Bonne culture générale · 20 pts / question</div></span>
       </button>
       <button class="level" data-level="2">
         <span class="roman">II</span>
-        <span><span class="name">Connaisseur</span><div class="desc">Bonne culture requise · 20 pts / question</div></span>
+        <span><span class="name">Érudit</span><div class="desc">Pour les esprits cultivés · 30 pts / question</div></span>
       </button>
       <button class="level" data-level="3">
         <span class="roman">III</span>
-        <span><span class="name">Érudit</span><div class="desc">Pour les fines lames · 30 pts / question</div></span>
+        <span><span class="name">Extrême</span><div class="desc">Réservé aux spécialistes · 40 pts / question</div></span>
       </button>
     </div>
 
@@ -284,55 +284,13 @@
 
 </div>
 
+<script src="questions.js"></script>
 <script>
-/* ============ BANQUE DE QUESTIONS ============ */
-const BANK = {
-  1:[
-    {t:'qcm',q:"Quelle est la capitale de l'Australie ?",o:["Sydney","Melbourne","Canberra","Perth"],r:2,e:"Canberra est la capitale fédérale, créée comme compromis entre Sydney et Melbourne."},
-    {t:'open',q:"Combien y a-t-il de continents sur Terre ?",a:["7","sept"],e:"On en compte traditionnellement sept."},
-    {t:'qcm',q:"Quel astre se trouve au centre du système solaire ?",o:["La Lune","Le Soleil","La Terre","Mars"],r:1,e:"Le Soleil, une étoile, autour duquel gravitent les planètes."},
-    {t:'open',q:"Qui a peint La Joconde ?",a:["leonard de vinci","vinci","de vinci","leonardo da vinci"],e:"Léonard de Vinci, au début du XVIᵉ siècle."},
-    {t:'qcm',q:"Quelle est la formule chimique de l'eau ?",o:["CO2","H2O","O2","NaCl"],r:1,e:"H₂O : deux atomes d'hydrogène, un d'oxygène."},
-    {t:'open',q:"Dans quel pays se trouve la tour Eiffel ?",a:["france","la france"],e:"En France, à Paris."},
-    {t:'qcm',q:"Combien de côtés possède un hexagone ?",o:["5","6","7","8"],r:1,e:"Six côtés."},
-    {t:'open',q:"Quel organe pompe le sang dans le corps ?",a:["coeur","le coeur"],e:"Le cœur."},
-    {t:'qcm',q:"Qui a écrit Les Misérables ?",o:["Émile Zola","Victor Hugo","Balzac","Flaubert"],r:1,e:"Victor Hugo, publié en 1862."},
-    {t:'open',q:"Quelle planète est surnommée « la planète rouge » ?",a:["mars"],e:"Mars, à cause de l'oxyde de fer à sa surface."},
-    {t:'qcm',q:"Quelle est la langue officielle du Brésil ?",o:["Espagnol","Portugais","Français","Anglais"],r:1,e:"Le portugais, héritage de la colonisation."},
-    {t:'open',q:"Combien font 9 × 8 ?",a:["72"],e:"72."}
-  ],
-  2:[
-    {t:'qcm',q:"En quelle année débute la Première Guerre mondiale ?",o:["1912","1914","1918","1939"],r:1,e:"1914, après l'attentat de Sarajevo."},
-    {t:'open',q:"Quel gaz les plantes absorbent-elles pour la photosynthèse ?",a:["dioxyde de carbone","co2","gaz carbonique","dioxyde de carbone co2"],e:"Le dioxyde de carbone (CO₂)."},
-    {t:'qcm',q:"Qui a peint La Nuit étoilée ?",o:["Monet","Van Gogh","Picasso","Cézanne"],r:1,e:"Vincent van Gogh, en 1889."},
-    {t:'open',q:"Quelle est la capitale du Canada ?",a:["ottawa"],e:"Ottawa, et non Toronto ou Montréal."},
-    {t:'qcm',q:"Quel métal est liquide à température ambiante ?",o:["Fer","Mercure","Plomb","Zinc"],r:1,e:"Le mercure."},
-    {t:'open',q:"Qui a élaboré la théorie de la relativité ?",a:["einstein","albert einstein"],e:"Albert Einstein."},
-    {t:'qcm',q:"Quel philosophe grec fut le précepteur d'Alexandre le Grand ?",o:["Platon","Socrate","Aristote","Épicure"],r:2,e:"Aristote."},
-    {t:'open',q:"En quelle année un homme a-t-il marché sur la Lune pour la première fois ?",a:["1969"],e:"1969, mission Apollo 11."},
-    {t:'qcm',q:"Combien d'os compte le squelette d'un adulte ?",o:["186","206","256","306"],r:1,e:"206 os."},
-    {t:'open',q:"Quel écrivain a publié Madame Bovary ?",a:["flaubert","gustave flaubert"],e:"Gustave Flaubert, en 1857."},
-    {t:'qcm',q:"Quelle est la monnaie du Japon ?",o:["Won","Yuan","Yen","Roupie"],r:2,e:"Le yen."},
-    {t:'open',q:"Quel est le plus long fleuve du monde ?",a:["nil","le nil","amazone","l amazone"],e:"Le Nil (≈6 650 km) selon la mesure classique ; l'Amazone est parfois donnée en tête. Les deux sont acceptées."}
-  ],
-  3:[
-    {t:'qcm',q:"Qui a formulé le principe d'incertitude en mécanique quantique ?",o:["Bohr","Heisenberg","Schrödinger","Planck"],r:1,e:"Werner Heisenberg, en 1927."},
-    {t:'open',q:"Quel élément chimique a pour symbole « Au » ?",a:["or","l or"],e:"L'or (du latin aurum)."},
-    {t:'qcm',q:"En quelle année est tombé le mur de Berlin ?",o:["1987","1989","1991","1993"],r:1,e:"Le 9 novembre 1989."},
-    {t:'open',q:"Quel philosophe a écrit la Critique de la raison pure ?",a:["kant","emmanuel kant","emmanuel kant"],e:"Emmanuel Kant, en 1781."},
-    {t:'qcm',q:"Quelle est la plus grande lune de Jupiter ?",o:["Europe","Io","Ganymède","Callisto"],r:2,e:"Ganymède, plus grande que la planète Mercure."},
-    {t:'open',q:"Quel traité a mis fin à la Première Guerre mondiale en 1919 ?",a:["traite de versailles","versailles","le traite de versailles"],e:"Le traité de Versailles."},
-    {t:'qcm',q:"Qui a composé La Flûte enchantée ?",o:["Bach","Mozart","Beethoven","Haydn"],r:1,e:"Wolfgang Amadeus Mozart, en 1791."},
-    {t:'open',q:"Comment se nomme la galaxie qui abrite notre système solaire ?",a:["voie lactee","la voie lactee"],e:"La Voie lactée."},
-    {t:'qcm',q:"Quel théorème, énoncé au XVIIᵉ siècle, fut démontré par Andrew Wiles en 1994 ?",o:["d'Euler","de Fermat","de Gauss","de Pascal"],r:1,e:"Le dernier théorème de Fermat."},
-    {t:'open',q:"Quelle civilisation a édifié le Machu Picchu ?",a:["incas","inca","les incas","civilisation inca"],e:"La civilisation inca, au XVᵉ siècle."},
-    {t:'qcm',q:"Quel est l'organe le plus étendu du corps humain ?",o:["Le foie","La peau","Le poumon","L'intestin"],r:1,e:"La peau."},
-    {t:'open',q:"Qui a écrit À la recherche du temps perdu ?",a:["proust","marcel proust"],e:"Marcel Proust."}
-  ]
-};
-const PTS={1:10,2:20,3:30};
-const LVL_NAME={1:"DEGRÉ I",2:"DEGRÉ II",3:"DEGRÉ III"};
-const N_QUESTIONS=10;
+/* ===== MOTEUR DE QUESTIONS ============ */
+const BANK = window.QUESTIONS || {1:[],2:[],3:[]};
+const PTS={1:20,2:30,3:40};
+const LVL_NAME={1:"CONNAISSEUR",2:"ÉRUDIT",3:"EXTRÊME"};
+const N_QUESTIONS=15;
 
 /* ============ ÉTAT ============ */
 let level=null, useAI=false, deck=[], idx=0, score=0, answered=false, recap=[];
@@ -341,6 +299,7 @@ let level=null, useAI=false, deck=[], idx=0, score=0, answered=false, recap=[];
 const $=s=>document.querySelector(s);
 function norm(s){
   return (s||"").toLowerCase().trim()
+    .replace(/œ/g,"oe").replace(/æ/g,"ae")
     .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
     .replace(/[^a-z0-9 ]/g," ").replace(/\b(le|la|les|l|un|une|des|du|de)\b/g," ")
     .replace(/\s+/g," ").trim();
@@ -375,6 +334,7 @@ $("#startBtn").addEventListener("click",start);
 /* ============ DÉROULÉ ============ */
 function show(id){["home","game","result"].forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
 function start(){
+  if(!BANK[level]||!BANK[level].length){alert("Questions non chargées : vérifie que questions.js est bien présent à côté de index.html.");return;}
   deck=buildDeck(level); idx=0; score=0; recap=[];
   $("#score").textContent="0"; $("#lvlTag").textContent=LVL_NAME[level];
   show("game"); render();
