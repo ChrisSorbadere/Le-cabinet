@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11162a">
+<title>Le Cabinet — culture générale</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#11162a;
+    --ink-2:#1a2138;
+    --parchment:#ece2c9;
+    --parchment-dim:#b7ad94;
+    --brass:#c9a24b;
+    --brass-soft:#e0c378;
+    --jade:#5a9c78;
+    --brick:#c5635a;
+    --line:rgba(201,162,75,.22);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:
+      radial-gradient(120% 80% at 50% -10%, #1c2440 0%, var(--ink) 55%, #0c1020 100%);
+    color:var(--parchment);
+    min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    padding:24px 16px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wrap{width:100%;max-width:620px}
+  .card{
+    background:linear-gradient(180deg,rgba(26,33,56,.9),rgba(17,22,42,.92));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:30px 26px 26px;
+    box-shadow:0 24px 60px -30px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.04);
+    position:relative;
+  }
+  .display{font-family:'Cormorant Garamond',serif}
+
+  /* ---------- ACCUEIL ---------- */
+  .seal{
+    width:74px;height:74px;margin:0 auto 18px;
+    border:1.5px solid var(--brass);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--brass-soft);
+    box-shadow:0 0 0 6px rgba(201,162,75,.06), inset 0 0 24px rgba(201,162,75,.12);
+  }
+  .seal svg{width:38px;height:38px}
+  h1{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    text-align:center;font-size:2.5rem;line-height:1;letter-spacing:.5px;
+  }
+  .tagline{
+    text-align:center;color:var(--parchment-dim);
+    font-size:.82rem;letter-spacing:2.5px;text-transform:uppercase;
+    margin-top:8px;
+  }
+  .section-label{
+    color:var(--brass);font-size:.72rem;letter-spacing:2px;
+    text-transform:uppercase;margin:26px 0 12px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .section-label::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .levels{display:flex;flex-direction:column;gap:10px}
+  .level{
+    width:100%;text-align:left;cursor:pointer;
+    background:rgba(255,255,255,.02);
+    border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;color:var(--parchment);
+    display:flex;align-items:center;gap:16px;
+    transition:border-color .2s, background .2s, transform .1s;
+    font:inherit;
+  }
+  .level:hover{border-color:var(--brass);background:rgba(201,162,75,.06)}
+  .level:active{transform:scale(.99)}
+  .level.sel{border-color:var(--brass);background:rgba(201,162,75,.1)}
+  .roman{
+    font-family:'Cormorant Garamond',serif;font-size:1.8rem;
+    color:var(--brass-soft);width:34px;text-align:center;flex:none;
+  }
+  .level .name{font-weight:600;font-size:1.02rem}
+  .level .desc{color:var(--parchment-dim);font-size:.82rem;margin-top:2px}
+
+  .opt-row{
+    display:flex;align-items:flex-start;gap:12px;
+    background:rgba(255,255,255,.02);
+    border:1px solid var(--line);border-radius:10px;padding:13px 16px;
+  }
+  .opt-text{flex:1}
+  .opt-text .t{font-weight:500;font-size:.95rem}
+  .opt-text .s{color:var(--parchment-dim);font-size:.78rem;margin-top:3px;line-height:1.4}
+  .switch{position:relative;width:46px;height:26px;flex:none;cursor:pointer}
+  .switch input{opacity:0;width:0;height:0}
+  .slider{
+    position:absolute;inset:0;border-radius:26px;
+    background:rgba(255,255,255,.12);transition:.2s;border:1px solid var(--line);
+  }
+  .slider::before{
+    content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;
+    border-radius:50%;background:var(--parchment);transition:.2s;
+  }
+  .switch input:checked+.slider{background:var(--brass)}
+  .switch input:checked+.slider::before{transform:translateX(20px);background:var(--ink)}
+
+  .btn{
+    width:100%;cursor:pointer;font:inherit;font-weight:600;
+    background:var(--brass);color:var(--ink);
+    border:none;border-radius:10px;padding:15px;font-size:1rem;
+    margin-top:24px;letter-spacing:.3px;
+    transition:filter .2s, transform .1s;
+  }
+  .btn:hover{filter:brightness(1.07)}
+  .btn:active{transform:scale(.99)}
+  .btn.ghost{background:transparent;color:var(--parchment);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--brass)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+
+  .best{text-align:center;color:var(--parchment-dim);font-size:.8rem;margin-top:16px}
+  .best b{color:var(--brass-soft)}
+
+  /* ---------- JEU ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+  .qcount{color:var(--parchment-dim);font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase}
+  .score-pill{
+    font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--brass-soft);
+  }
+  .score-pill span{font-family:'Inter';font-size:.7rem;color:var(--parchment-dim);letter-spacing:1px}
+  .progress{height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin:14px 0 24px}
+  .progress > div{height:100%;background:linear-gradient(90deg,var(--brass),var(--brass-soft));transition:width .4s ease}
+
+  .qtype{color:var(--brass);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .question{font-family:'Cormorant Garamond',serif;font-size:1.7rem;line-height:1.2;margin-bottom:22px}
+
+  .choices{display:flex;flex-direction:column;gap:10px}
+  .choice{
+    text-align:left;cursor:pointer;font:inherit;font-size:.98rem;
+    background:rgba(255,255,255,.02);border:1px solid var(--line);
+    border-radius:10px;padding:14px 16px;color:var(--parchment);
+    display:flex;align-items:center;gap:12px;transition:.15s;
+  }
+  .choice:hover:not(:disabled){border-color:var(--brass);background:rgba(201,162,75,.06)}
+  .choice:disabled{cursor:default}
+  .choice .mark{font-family:'Cormorant Garamond',serif;color:var(--brass-soft);width:18px;flex:none}
+  .choice.good{border-color:var(--jade);background:rgba(90,156,120,.14)}
+  .choice.bad{border-color:var(--brick);background:rgba(197,99,90,.14)}
+
+  .open-field{
+    width:100%;font:inherit;font-size:1rem;color:var(--parchment);
+    background:rgba(255,255,255,.03);border:1px solid var(--line);
+    border-radius:10px;padding:14px 16px;outline:none;
+  }
+  .open-field:focus{border-color:var(--brass)}
+  .open-field:disabled{opacity:.7}
+
+  .feedback{margin-top:18px;padding:14px 16px;border-radius:10px;font-size:.92rem;line-height:1.5;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:rgba(90,156,120,.12);border:1px solid rgba(90,156,120,.4)}
+  .feedback.ko{background:rgba(197,99,90,.12);border:1px solid rgba(197,99,90,.4)}
+  .feedback .verdict{font-weight:600;margin-bottom:4px}
+  .feedback .verdict.ok{color:#8fd0aa}
+  .feedback .verdict.ko{color:#e89089}
+  .feedback .exp{color:var(--parchment-dim)}
+  .thinking{color:var(--parchment-dim);font-size:.85rem;margin-top:14px;display:none}
+  .thinking.show{display:block}
+
+  .notice{
+    margin-top:14px;font-size:.78rem;color:var(--parchment-dim);
+    border:1px dashed var(--line);border-radius:8px;padding:8px 12px;display:none;
+  }
+  .notice.show{display:block}
+
+  /* ---------- RÉSULTAT ---------- */
+  .result-score{font-family:'Cormorant Garamond',serif;font-size:4rem;color:var(--brass-soft);text-align:center;line-height:1}
+  .result-max{text-align:center;color:var(--parchment-dim);margin-top:4px}
+  .verdict-line{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin:18px 0 4px}
+  .recap{margin-top:22px;display:flex;flex-direction:column;gap:8px}
+  .recap-item{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;border-top:1px solid var(--line);padding-top:8px}
+  .recap-item .ic{flex:none;font-weight:700}
+  .recap-item .ic.ok{color:var(--jade)}
+  .recap-item .ic.ko{color:var(--brick)}
+  .recap-item .rq{color:var(--parchment-dim)}
+  .recap-item .ra{color:var(--parchment)}
+
+  .hidden{display:none}
+  @media (max-width:480px){
+    .card{padding:24px 18px}
+    h1{font-size:2.1rem}
+    .question{font-size:1.4rem}
+    .result-score{font-size:3.2rem}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== ACCUEIL ===== -->
+  <section class="card" id="home">
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 2v20M4 6l8 4 8-4M4 18l8-4 8 4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="2.2"/>
+      </svg>
+    </div>
+    <h1 class="display">Le Cabinet</h1>
+    <p class="tagline">Épreuve de culture générale</p>
+
+    <div class="section-label">Choisis ton degré</div>
+    <div class="levels" id="levels">
+      <button class="level" data-level="1">
+        <span class="roman">I</span>
+        <span><span class="name">Initié</span><div class="desc">Notions accessibles · 10 pts / question</div></span>
+      </button>
+      <button class="level" data-level="2">
+        <span class="roman">II</span>
+        <span><span class="name">Connaisseur</span><div class="desc">Bonne culture requise · 20 pts / question</div></span>
+      </button>
+      <button class="level" data-level="3">
+        <span class="roman">III</span>
+        <span><span class="name">Érudit</span><div class="desc">Pour les fines lames · 30 pts / question</div></span>
+      </button>
+    </div>
+
+    <div class="section-label">Réponses ouvertes</div>
+    <div class="opt-row">
+      <div class="opt-text">
+        <div class="t">Correction par l'IA</div>
+        <div class="s">Plus souple sur la formulation. Nécessite claude.ai ; sinon repli automatique sur la correction locale.</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="aiToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button class="btn" id="startBtn" disabled>Commencer l'épreuve</button>
+    <div class="best" id="bestLine"></div>
+  </section>
+
+  <!-- ===== JEU ===== -->
+  <section class="card hidden" id="game">
+    <div class="topbar">
+      <div class="qcount" id="qcount">Question 1 / 10</div>
+      <div class="score-pill"><span id="lvlTag">DEGRÉ I</span> · <b id="score">0</b> <span>PTS</span></div>
+    </div>
+    <div class="progress"><div id="bar" style="width:0%"></div></div>
+
+    <div class="qtype" id="qtype">Choix multiple</div>
+    <div class="question display" id="question">…</div>
+
+    <div class="choices" id="choices"></div>
+    <input class="open-field hidden" id="openField" type="text" autocomplete="off" placeholder="Ta réponse…">
+
+    <div class="thinking" id="thinking">L'examinateur réfléchit…</div>
+    <div class="feedback" id="feedback">
+      <div class="verdict" id="verdict"></div>
+      <div class="exp" id="exp"></div>
+    </div>
+    <div class="notice" id="notice"></div>
+
+    <button class="btn hidden" id="validateBtn">Valider</button>
+    <button class="btn hidden" id="nextBtn">Question suivante</button>
+  </section>
+
+  <!-- ===== RÉSULTAT ===== -->
+  <section class="card hidden" id="result">
+    <div class="section-label">Verdict du Cabinet</div>
+    <div class="result-score"><span id="finalScore">0</span></div>
+    <div class="result-max">points sur <span id="maxScore">0</span></div>
+    <div class="verdict-line display" id="finalVerdict"></div>
+    <div class="recap" id="recap"></div>
+    <button class="btn" id="replayBtn">Nouvelle épreuve</button>
+    <button class="btn ghost" id="homeBtn">Retour à l'accueil</button>
+  </section>
+
+</div>
+
+<script>
+/* ============ BANQUE DE QUESTIONS ============ */
+const BANK = {
+  1:[
+    {t:'qcm',q:"Quelle est la capitale de l'Australie ?",o:["Sydney","Melbourne","Canberra","Perth"],r:2,e:"Canberra est la capitale fédérale, créée comme compromis entre Sydney et Melbourne."},
+    {t:'open',q:"Combien y a-t-il de continents sur Terre ?",a:["7","sept"],e:"On en compte traditionnellement sept."},
+    {t:'qcm',q:"Quel astre se trouve au centre du système solaire ?",o:["La Lune","Le Soleil","La Terre","Mars"],r:1,e:"Le Soleil, une étoile, autour duquel gravitent les planètes."},
+    {t:'open',q:"Qui a peint La Joconde ?",a:["leonard de vinci","vinci","de vinci","leonardo da vinci"],e:"Léonard de Vinci, au début du XVIᵉ siècle."},
+    {t:'qcm',q:"Quelle est la formule chimique de l'eau ?",o:["CO2","H2O","O2","NaCl"],r:1,e:"H₂O : deux atomes d'hydrogène, un d'oxygène."},
+    {t:'open',q:"Dans quel pays se trouve la tour Eiffel ?",a:["france","la france"],e:"En France, à Paris."},
+    {t:'qcm',q:"Combien de côtés possède un hexagone ?",o:["5","6","7","8"],r:1,e:"Six côtés."},
+    {t:'open',q:"Quel organe pompe le sang dans le corps ?",a:["coeur","le coeur"],e:"Le cœur."},
+    {t:'qcm',q:"Qui a écrit Les Misérables ?",o:["Émile Zola","Victor Hugo","Balzac","Flaubert"],r:1,e:"Victor Hugo, publié en 1862."},
+    {t:'open',q:"Quelle planète est surnommée « la planète rouge » ?",a:["mars"],e:"Mars, à cause de l'oxyde de fer à sa surface."},
+    {t:'qcm',q:"Quelle est la langue officielle du Brésil ?",o:["Espagnol","Portugais","Français","Anglais"],r:1,e:"Le portugais, héritage de la colonisation."},
+    {t:'open',q:"Combien font 9 × 8 ?",a:["72"],e:"72."}
+  ],
+  2:[
+    {t:'qcm',q:"En quelle année débute la Première Guerre mondiale ?",o:["1912","1914","1918","1939"],r:1,e:"1914, après l'attentat de Sarajevo."},
+    {t:'open',q:"Quel gaz les plantes absorbent-elles pour la photosynthèse ?",a:["dioxyde de carbone","co2","gaz carbonique","dioxyde de carbone co2"],e:"Le dioxyde de carbone (CO₂)."},
+    {t:'qcm',q:"Qui a peint La Nuit étoilée ?",o:["Monet","Van Gogh","Picasso","Cézanne"],r:1,e:"Vincent van Gogh, en 1889."},
+    {t:'open',q:"Quelle est la capitale du Canada ?",a:["ottawa"],e:"Ottawa, et non Toronto ou Montréal."},
+    {t:'qcm',q:"Quel métal est liquide à température ambiante ?",o:["Fer","Mercure","Plomb","Zinc"],r:1,e:"Le mercure."},
+    {t:'open',q:"Qui a élaboré la théorie de la relativité ?",a:["einstein","albert einstein"],e:"Albert Einstein."},
+    {t:'qcm',q:"Quel philosophe grec fut le précepteur d'Alexandre le Grand ?",o:["Platon","Socrate","Aristote","Épicure"],r:2,e:"Aristote."},
+    {t:'open',q:"En quelle année un homme a-t-il marché sur la Lune pour la première fois ?",a:["1969"],e:"1969, mission Apollo 11."},
+    {t:'qcm',q:"Combien d'os compte le squelette d'un adulte ?",o:["186","206","256","306"],r:1,e:"206 os."},
+    {t:'open',q:"Quel écrivain a publié Madame Bovary ?",a:["flaubert","gustave flaubert"],e:"Gustave Flaubert, en 1857."},
+    {t:'qcm',q:"Quelle est la monnaie du Japon ?",o:["Won","Yuan","Yen","Roupie"],r:2,e:"Le yen."},
+    {t:'open',q:"Quel est le plus long fleuve du monde ?",a:["nil","le nil","amazone","l amazone"],e:"Le Nil (≈6 650 km) selon la mesure classique ; l'Amazone est parfois donnée en tête. Les deux sont acceptées."}
+  ],
+  3:[
+    {t:'qcm',q:"Qui a formulé le principe d'incertitude en mécanique quantique ?",o:["Bohr","Heisenberg","Schrödinger","Planck"],r:1,e:"Werner Heisenberg, en 1927."},
+    {t:'open',q:"Quel élément chimique a pour symbole « Au » ?",a:["or","l or"],e:"L'or (du latin aurum)."},
+    {t:'qcm',q:"En quelle année est tombé le mur de Berlin ?",o:["1987","1989","1991","1993"],r:1,e:"Le 9 novembre 1989."},
+    {t:'open',q:"Quel philosophe a écrit la Critique de la raison pure ?",a:["kant","emmanuel kant","emmanuel kant"],e:"Emmanuel Kant, en 1781."},
+    {t:'qcm',q:"Quelle est la plus grande lune de Jupiter ?",o:["Europe","Io","Ganymède","Callisto"],r:2,e:"Ganymède, plus grande que la planète Mercure."},
+    {t:'open',q:"Quel traité a mis fin à la Première Guerre mondiale en 1919 ?",a:["traite de versailles","versailles","le traite de versailles"],e:"Le traité de Versailles."},
+    {t:'qcm',q:"Qui a composé La Flûte enchantée ?",o:["Bach","Mozart","Beethoven","Haydn"],r:1,e:"Wolfgang Amadeus Mozart, en 1791."},
+    {t:'open',q:"Comment se nomme la galaxie qui abrite notre système solaire ?",a:["voie lactee","la voie lactee"],e:"La Voie lactée."},
+    {t:'qcm',q:"Quel théorème, énoncé au XVIIᵉ siècle, fut démontré par Andrew Wiles en 1994 ?",o:["d'Euler","de Fermat","de Gauss","de Pascal"],r:1,e:"Le dernier théorème de Fermat."},
+    {t:'open',q:"Quelle civilisation a édifié le Machu Picchu ?",a:["incas","inca","les incas","civilisation inca"],e:"La civilisation inca, au XVᵉ siècle."},
+    {t:'qcm',q:"Quel est l'organe le plus étendu du corps humain ?",o:["Le foie","La peau","Le poumon","L'intestin"],r:1,e:"La peau."},
+    {t:'open',q:"Qui a écrit À la recherche du temps perdu ?",a:["proust","marcel proust"],e:"Marcel Proust."}
+  ]
+};
+const PTS={1:10,2:20,3:30};
+const LVL_NAME={1:"DEGRÉ I",2:"DEGRÉ II",3:"DEGRÉ III"};
+const N_QUESTIONS=10;
+
+/* ============ ÉTAT ============ */
+let level=null, useAI=false, deck=[], idx=0, score=0, answered=false, recap=[];
+
+/* ============ UTILITAIRES ============ */
+const $=s=>document.querySelector(s);
+function norm(s){
+  return (s||"").toLowerCase().trim()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9 ]/g," ").replace(/\b(le|la|les|l|un|une|des|du|de)\b/g," ")
+    .replace(/\s+/g," ").trim();
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function buildDeck(lvl){
+  const pool=shuffle(BANK[lvl]);
+  const sel=pool.slice(0,N_QUESTIONS);
+  // alternance QCM / ouverte autant que possible
+  const qcm=sel.filter(q=>q.t==='qcm'), open=sel.filter(q=>q.t==='open');
+  const out=[]; let a=qcm,b=open;
+  while(a.length||b.length){ if(a.length)out.push(a.shift()); if(b.length)out.push(b.shift()); [a,b]=[b,a]; }
+  return out;
+}
+function bestKey(l){return "cabinet_best_"+l;}
+function getBest(l){return parseInt(localStorage.getItem(bestKey(l))||"0",10);}
+function setBest(l,v){if(v>getBest(l))localStorage.setItem(bestKey(l),String(v));}
+
+/* ============ ACCUEIL ============ */
+$("#levels").addEventListener("click",e=>{
+  const b=e.target.closest(".level"); if(!b)return;
+  document.querySelectorAll(".level").forEach(x=>x.classList.remove("sel"));
+  b.classList.add("sel"); level=+b.dataset.level;
+  $("#startBtn").disabled=false; refreshBest();
+});
+$("#aiToggle").addEventListener("change",e=>useAI=e.target.checked);
+function refreshBest(){
+  if(level){const b=getBest(level); $("#bestLine").innerHTML=b?`Meilleur score à ce degré : <b>${b}</b> pts`:"";}
+}
+$("#startBtn").addEventListener("click",start);
+
+/* ============ DÉROULÉ ============ */
+function show(id){["home","game","result"].forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
+function start(){
+  deck=buildDeck(level); idx=0; score=0; recap=[];
+  $("#score").textContent="0"; $("#lvlTag").textContent=LVL_NAME[level];
+  show("game"); render();
+}
+function render(){
+  answered=false;
+  const q=deck[idx];
+  $("#qcount").textContent=`Question ${idx+1} / ${deck.length}`;
+  $("#bar").style.width=(idx/deck.length*100)+"%";
+  $("#qtype").textContent=q.t==='qcm'?"Choix multiple":"Réponse ouverte";
+  $("#question").textContent=q.q;
+  $("#feedback").className="feedback"; $("#notice").className="notice";
+  $("#thinking").classList.remove("show");
+  $("#nextBtn").classList.add("hidden");
+
+  const choices=$("#choices"), field=$("#openField"), validate=$("#validateBtn");
+  if(q.t==='qcm'){
+    field.classList.add("hidden"); validate.classList.add("hidden");
+    choices.classList.remove("hidden"); choices.innerHTML="";
+    const marks=["A","B","C","D"];
+    q.o.forEach((txt,i)=>{
+      const btn=document.createElement("button");
+      btn.className="choice";
+      btn.innerHTML=`<span class="mark">${marks[i]}</span><span>${txt}</span>`;
+      btn.addEventListener("click",()=>answerQCM(i,btn));
+      choices.appendChild(btn);
+    });
+  }else{
+    choices.classList.add("hidden"); choices.innerHTML="";
+    field.classList.remove("hidden"); field.disabled=false; field.value=""; field.focus();
+    validate.classList.remove("hidden"); validate.disabled=false;
+    validate.textContent="Valider";
+  }
+}
+$("#openField").addEventListener("keydown",e=>{if(e.key==="Enter"&&!answered)validateOpen();});
+$("#validateBtn").addEventListener("click",validateOpen);
+$("#nextBtn").addEventListener("click",()=>{idx++; if(idx>=deck.length)finish(); else render();});
+
+function answerQCM(i,btn){
+  if(answered)return; answered=true;
+  const q=deck[idx];
+  document.querySelectorAll(".choice").forEach((c,j)=>{
+    c.disabled=true;
+    if(j===q.r)c.classList.add("good");
+    if(j===i&&i!==q.r)c.classList.add("bad");
+  });
+  const ok=i===q.r;
+  if(ok)addScore();
+  recap.push({q:q.q,ok,correct:q.o[q.r]});
+  showFeedback(ok, ok?"Exact.":"Incorrect.", q.e);
+}
+
+async function validateOpen(){
+  if(answered)return;
+  const q=deck[idx], raw=$("#openField").value.trim();
+  if(!raw){$("#openField").focus();return;}
+  answered=true;
+  $("#openField").disabled=true; $("#validateBtn").disabled=true;
+
+  if(useAI){
+    $("#thinking").classList.add("show");
+    const res=await judgeAI(q.q,raw);
+    $("#thinking").classList.remove("show");
+    if(res){
+      if(res.correct)addScore();
+      recap.push({q:q.q,ok:res.correct,correct:q.e});
+      showFeedback(res.correct, res.correct?"Exact.":"Incorrect.", res.feedback||q.e);
+      return;
+    }
+    // repli local
+    $("#notice").textContent="Correction IA indisponible ici — correction locale appliquée.";
+    $("#notice").classList.add("show");
+  }
+  const ok=q.a.some(acc=>{
+    const n=norm(raw),na=norm(acc);
+    if(na.length<=3)return n===na;          // réponses courtes/chiffres : égalité stricte
+    return n===na||n.includes(na)||(na.includes(n)&&n.length>=Math.min(4,na.length));
+  });
+  if(ok)addScore();
+  recap.push({q:q.q,ok,correct:q.e});
+  showFeedback(ok, ok?"Exact.":"Incorrect.", q.e);
+}
+
+function addScore(){ score+=PTS[level]; $("#score").textContent=score; }
+function showFeedback(ok,verdict,exp){
+  const f=$("#feedback");
+  f.className="feedback show "+(ok?"ok":"ko");
+  $("#verdict").className="verdict "+(ok?"ok":"ko");
+  $("#verdict").textContent=verdict;
+  $("#exp").textContent=exp||"";
+  $("#bar").style.width=((idx+1)/deck.length*100)+"%";
+  $("#nextBtn").textContent=(idx+1>=deck.length)?"Voir le verdict":"Question suivante";
+  $("#nextBtn").classList.remove("hidden");
+}
+
+/* ============ ÉVALUATION IA ============ */
+async function judgeAI(question,answer){
+  try{
+    const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),20000);
+    const r=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},signal:ctrl.signal,
+      body:JSON.stringify({
+        model:"claude-sonnet-4-6",max_tokens:1000,
+        messages:[{role:"user",content:
+`Tu es l'examinateur d'un quiz de culture générale en français. Évalue si la réponse du candidat est correcte, en étant souple sur la formulation, l'orthographe et les synonymes, mais rigoureux sur le fond.
+
+Question : ${question}
+Réponse du candidat : ${answer}
+
+Réponds UNIQUEMENT par un objet JSON valide, sans texte ni balises autour :
+{"correct": true|false, "feedback": "une phrase courte qui donne la bonne réponse et justifie"}`}]
+      })
+    });
+    clearTimeout(to);
+    if(!r.ok)return null;
+    const data=await r.json();
+    const txt=(data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("").replace(/```json|```/g,"").trim();
+    const m=txt.match(/\{[\s\S]*\}/); if(!m)return null;
+    const p=JSON.parse(m[0]);
+    return {correct:!!p.correct, feedback:p.feedback};
+  }catch(e){return null;}
+}
+
+/* ============ RÉSULTAT ============ */
+function finish(){
+  const max=deck.length*PTS[level];
+  setBest(level,score);
+  $("#finalScore").textContent=score;
+  $("#maxScore").textContent=max;
+  const ratio=score/max;
+  let v;
+  if(ratio>=0.9)v="Maître du Cabinet";
+  else if(ratio>=0.7)v="Esprit éclairé";
+  else if(ratio>=0.5)v="Sur la bonne voie";
+  else if(ratio>=0.3)v="Encore à parfaire";
+  else v="Le savoir t'attend";
+  $("#finalVerdict").textContent=v;
+  const rec=$("#recap"); rec.innerHTML="";
+  recap.forEach(it=>{
+    const d=document.createElement("div"); d.className="recap-item";
+    d.innerHTML=`<span class="ic ${it.ok?'ok':'ko'}">${it.ok?'✓':'✗'}</span>
+      <span><div class="rq">${it.q}</div><div class="ra">${it.correct}</div></span>`;
+    rec.appendChild(d);
+  });
+  show("result");
+}
+$("#replayBtn").addEventListener("click",start);
+$("#homeBtn").addEventListener("click",()=>{show("home");refreshBest();});
+
+/* ============ PWA ============ */
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+</script>
+</body>
+</html>

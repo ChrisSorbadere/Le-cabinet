@@ -1,0 +1,12 @@
+{
+  "name": "Le Cabinet — culture générale",
+  "short_name": "Le Cabinet",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#11162a",
+  "theme_color": "#11162a",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
