@@ -1,104 +1,54 @@
 /* ============================================================
    BANQUE DE QUESTIONS — Le Cabinet
    ------------------------------------------------------------
-   Ajoute autant de questions que tu veux dans chaque degré (1, 2, 3).
    À chaque partie, 15 questions sont tirées au hasard dans le degré choisi.
 
-   FORMAT — question à choix multiple :
-     {t:'qcm', q:"Énoncé ?", o:["A","B","C","D"], r:2, e:"Explication."}
+   FORMAT — choix multiple :
+     {t:'qcm', d:"domaine", q:"Énoncé ?", o:["A","B","C","D"], r:2, e:"Explication."}
        o = options (2 à 4)   r = index de la bonne réponse (0 = la 1re)
 
-   FORMAT — réponse ouverte :
-     {t:'open', q:"Énoncé ?", a:["forme1","forme2"], e:"Explication."}
-       a = formes acceptées, EN MINUSCULES SANS ACCENTS
-           (les accents, articles et la casse sont ignorés automatiquement ;
-            mets plusieurs variantes : ["newton","isaac newton"])
+   FORMAT — réponse ouverte (réponse UNIVOQUE : nom propre, date, terme unique) :
+     {t:'open', d:"domaine", q:"Énoncé ?", a:["forme1","forme2"], e:"Explication."}
+       a = formes acceptées en MINUSCULES SANS ACCENTS
+           (accents, articles, ligatures et casse sont gérés automatiquement)
+
+   d = domaine (optionnel, sert à l'équilibrage) : histoire, littérature,
+       philosophie, sciences, mathématiques, arts, géographie,
+       sciences humaines, religions, mythologie, linguistique, étymologie,
+       histoire des sciences.
 
    Degrés : 1 = Connaisseur (20 pts) · 2 = Érudit (30 pts) · 3 = Extrême (40 pts)
    ============================================================ */
 window.QUESTIONS = {
-  1:[ /* ===== CONNAISSEUR ===== */
-    {t:'qcm',q:"En quelle année débute la Première Guerre mondiale ?",o:["1912","1914","1918","1939"],r:1,e:"1914, après l'attentat de Sarajevo."},
-    {t:'open',q:"Quel gaz les plantes absorbent-elles pour la photosynthèse ?",a:["dioxyde de carbone","co2","gaz carbonique"],e:"Le dioxyde de carbone (CO₂)."},
-    {t:'qcm',q:"Qui a peint La Nuit étoilée ?",o:["Monet","Van Gogh","Picasso","Cézanne"],r:1,e:"Vincent van Gogh, en 1889."},
-    {t:'open',q:"Quelle est la capitale du Canada ?",a:["ottawa"],e:"Ottawa, et non Toronto ou Montréal."},
-    {t:'qcm',q:"Quel métal est liquide à température ambiante ?",o:["Fer","Mercure","Plomb","Zinc"],r:1,e:"Le mercure."},
-    {t:'open',q:"Qui a élaboré la théorie de la relativité ?",a:["einstein","albert einstein"],e:"Albert Einstein."},
-    {t:'qcm',q:"Quel philosophe grec fut le précepteur d'Alexandre le Grand ?",o:["Platon","Socrate","Aristote","Épicure"],r:2,e:"Aristote."},
-    {t:'open',q:"En quelle année un homme a-t-il marché sur la Lune pour la première fois ?",a:["1969"],e:"1969, mission Apollo 11."},
-    {t:'qcm',q:"Combien d'os compte le squelette d'un adulte ?",o:["186","206","256","306"],r:1,e:"206 os."},
-    {t:'open',q:"Quel écrivain a publié Madame Bovary ?",a:["flaubert","gustave flaubert"],e:"Gustave Flaubert, en 1857."},
-    {t:'qcm',q:"Quelle est la monnaie du Japon ?",o:["Won","Yuan","Yen","Roupie"],r:2,e:"Le yen."},
-    {t:'open',q:"Quel est le plus long fleuve du monde ?",a:["nil","amazone"],e:"Le Nil (≈6 650 km) selon la mesure classique ; l'Amazone est parfois donnée en tête. Les deux sont acceptées."},
-    {t:'qcm',q:"Quelle est la capitale de l'Espagne ?",o:["Barcelone","Madrid","Séville","Valence"],r:1,e:"Madrid."},
-    {t:'open',q:"Combien de planètes compte le système solaire ?",a:["8","huit"],e:"Huit, depuis le déclassement de Pluton en 2006."},
-    {t:'qcm',q:"Qui a peint Guernica ?",o:["Dalí","Picasso","Miró","Goya"],r:1,e:"Pablo Picasso, en 1937."},
-    {t:'open',q:"Quel est le plus haut sommet du monde ?",a:["everest","mont everest"],e:"L'Everest, 8 849 m."},
-    {t:'qcm',q:"En quelle année débute la Révolution française ?",o:["1776","1789","1799","1804"],r:1,e:"1789, avec la prise de la Bastille."},
-    {t:'open',q:"Quel est le plus grand océan du monde ?",a:["pacifique","ocean pacifique"],e:"L'océan Pacifique."},
-    {t:'qcm',q:"Qui a écrit Roméo et Juliette ?",o:["Molière","Shakespeare","Goethe","Dante"],r:1,e:"William Shakespeare."},
-    {t:'open',q:"Quelle est la capitale de l'Allemagne ?",a:["berlin"],e:"Berlin."},
-    {t:'qcm',q:"Combien de joueurs compte une équipe de football sur le terrain ?",o:["9","10","11","12"],r:2,e:"Onze joueurs, gardien compris."},
-    {t:'open',q:"Quel est le gaz le plus abondant dans l'atmosphère terrestre ?",a:["azote","diazote","n2"],e:"L'azote, qui représente environ 78 % de l'air."},
-    {t:'qcm',q:"Quelle monnaie est utilisée en France, en Allemagne et en Italie ?",o:["Le franc","La lire","L'euro","Le mark"],r:2,e:"L'euro."},
-    {t:'open',q:"Quel navigateur a atteint l'Amérique en 1492 ?",a:["christophe colomb","colomb"],e:"Christophe Colomb."},
-    {t:'qcm',q:"Quel est le symbole chimique de l'oxygène ?",o:["O","Ox","Og","Oy"],r:0,e:"O."},
-    {t:'open',q:"Quelle planète est surnommée « la planète rouge » ?",a:["mars"],e:"Mars."}
+  1:[ /* ===== CONNAISSEUR — bloc pilote ===== */
+    {t:'qcm',d:"étymologie",q:"Le mot « candidat » vient du latin candidus, « blanc ». Pourquoi ?",o:["Les candidats portaient une toge blanchie à la craie","Le vote se faisait avec des cailloux blancs","Les élus étaient couronnés de fleurs blanches","Le blanc symbolisait la noblesse"],r:0,e:"À Rome, ceux qui briguaient une charge revêtaient la toga candida, blanchie à la craie, gage de pureté d'intention. D'où « candidat »."},
+    {t:'qcm',d:"histoire",q:"En 1453, deux événements ferment le Moyen Âge sur deux fronts : la chute de Constantinople et la fin de quel long conflit en Europe occidentale ?",o:["La guerre de Cent Ans","La guerre des Deux-Roses","La Reconquista","La guerre de Trente Ans"],r:0,e:"La même année, Constantinople tombe et la guerre de Cent Ans s'achève à la bataille de Castillon."},
+    {t:'open',d:"géographie",q:"Quel détroit, large d'à peine 14 km à son point le plus étroit, sépare l'Europe de l'Afrique ?",a:["gibraltar","detroit de gibraltar"],e:"Le détroit de Gibraltar ; son nom vient de l'arabe Jabal Tariq, « la montagne de Tariq », du chef qui y débarqua en 711."},
+    {t:'qcm',d:"philosophie",q:"Quel philosophe, cherchant une certitude indubitable, conclut que l'acte même de douter prouve l'existence du sujet pensant ?",o:["Pascal","Descartes","Spinoza","Montaigne"],r:1,e:"Descartes : on peut douter de tout, sauf du fait qu'on doute — donc qu'on pense, donc qu'on est (Discours de la méthode, 1637)."},
+    {t:'open',d:"sciences",q:"Quelle force unique fait à la fois tomber une pomme et retient la Lune sur son orbite, selon Newton ?",a:["gravitation","gravite","gravitation universelle","la gravitation"],e:"La gravitation universelle : Newton comprend que la chute des corps et le mouvement des astres obéissent à la même loi."},
+    {t:'qcm',d:"sciences",q:"Pourquoi le sang humain est-il rouge ?",o:["À cause du fer de l'hémoglobine","À cause du cuivre du plasma","À cause des globules blancs","À cause du dioxyde de carbone"],r:0,e:"L'hémoglobine contient du fer qui, lié à l'oxygène, donne le rouge. Le crabe limule, lui, a le sang bleu, à base de cuivre."},
+    {t:'qcm',d:"sciences",q:"Pourquoi répand-on du sel sur les routes verglacées ?",o:["Il abaisse le point de congélation de l'eau","Il réchauffe la glace","Il augmente la friction des pneus","Il absorbe l'humidité de l'air"],r:0,e:"Le sel abaisse la température de congélation : l'eau salée reste liquide en dessous de 0 °C, donc la glace fond."},
+    {t:'open',d:"mathématiques",q:"Quelle constante irrationnelle exprime le rapport entre la circonférence d'un cercle et son diamètre ?",a:["pi"],e:"π ≈ 3,14159… Sa transcendance, prouvée par Lindemann en 1882, démontre qu'on ne peut pas « quarrer le cercle » à la règle et au compas."},
+    {t:'qcm',d:"arts",q:"Quel mouvement pictural doit son nom à une toile de Monet, « Impression, soleil levant », d'abord lancé par un critique comme une moquerie ?",o:["Le fauvisme","L'impressionnisme","Le cubisme","Le pointillisme"],r:1,e:"En 1874, le critique Louis Leroy raille le flou du tableau ; les peintres adoptent fièrement le terme « impressionnisme »."},
+    {t:'qcm',d:"arts",q:"Quel compositeur acheva sa 9ᵉ symphonie alors qu'il était devenu sourd ?",o:["Mozart","Beethoven","Schubert","Haydn"],r:1,e:"Beethoven, devenu sourd, composa la 9ᵉ Symphonie (1824) en « entendant » la musique dans sa tête."},
+    {t:'open',d:"arts",q:"Quel architecte catalan a conçu la Sagrada Família, encore inachevée à Barcelone ?",a:["gaudi","antoni gaudi"],e:"Antoni Gaudí ; le chantier, ouvert en 1882, se poursuit plus d'un siècle après sa mort en 1926."},
+    {t:'qcm',d:"arts",q:"Quel réalisateur, surnommé « le maître du suspense », a tourné Psychose et Les Oiseaux ?",o:["Stanley Kubrick","Alfred Hitchcock","Orson Welles","Fritz Lang"],r:1,e:"Alfred Hitchcock ; la scène de la douche de Psychose (1960) reste un sommet du montage."},
+    {t:'qcm',d:"mythologie",q:"Dans la mythologie grecque, qui est condamné à rouler éternellement un rocher au sommet d'une colline d'où il redescend toujours ?",o:["Tantale","Prométhée","Sisyphe","Atlas"],r:2,e:"Sisyphe ; Camus en fit le symbole de l'absurde : « Il faut imaginer Sisyphe heureux »."},
+    {t:'qcm',d:"histoire des sciences",q:"Quel naturaliste a exposé la théorie de l'évolution par sélection naturelle dans L'Origine des espèces (1859) ?",o:["Lamarck","Darwin","Mendel","Buffon"],r:1,e:"Charles Darwin ; Alfred Wallace ayant abouti à une idée proche, leur travail fut présenté ensemble en 1858."},
+    {t:'open',d:"histoire des sciences",q:"Quel astronome polonais a placé le Soleil, et non la Terre, au centre du système, amorçant la révolution scientifique ?",a:["copernic","nicolas copernic"],e:"Nicolas Copernic ; son De revolutionibus (1543) déloge la Terre du centre du cosmos."},
+    {t:'qcm',d:"linguistique",q:"Quelle pierre, découverte en Égypte sous Bonaparte, permit à Champollion de déchiffrer les hiéroglyphes ?",o:["La pierre de Rosette","La stèle de Mérenptah","Le disque de Phaistos","La pierre de Palerme"],r:0,e:"La pierre de Rosette portait le même décret en trois écritures ; Champollion en perça le code en 1822."},
+    {t:'open',d:"littérature",q:"Quel poète florentin a écrit La Divine Comédie, voyage à travers l'Enfer, le Purgatoire et le Paradis ?",a:["dante","dante alighieri"],e:"Dante Alighieri ; écrite en toscan, son œuvre a contribué à fonder l'italien littéraire."},
+    {t:'qcm',d:"littérature",q:"Quel romancier français, prix Goncourt 1949, est l'auteur de Week-end à Zuydcoote et de la saga Fortune de France ?",o:["Robert Merle","Romain Gary","Jean Giono","Marcel Pagnol"],r:0,e:"Robert Merle ; Week-end à Zuydcoote raconte Dunkerque, qu'il vécut comme soldat."},
+    {t:'qcm',d:"géographie",q:"Quel pays d'Amérique du Sud porte en espagnol le nom de la ligne imaginaire qui le traverse ?",o:["Le Pérou","La Colombie","L'Équateur","Le Venezuela"],r:2,e:"L'Équateur (Ecuador) ; la ligne équatoriale passe tout près de sa capitale, Quito."},
+    {t:'open',d:"philosophie",q:"Quel philosophe grec, condamné à boire la ciguë, n'a rien écrit et nous est surtout connu par les dialogues de Platon ?",a:["socrate"],e:"Socrate ; sa méthode du questionnement (la maïeutique) est au fondement de la philosophie occidentale."},
+    {t:'qcm',d:"sciences",q:"Quelle équation, formulée par Einstein en 1905, exprime l'équivalence entre la masse et l'énergie ?",o:["E=mc²","F=ma","PV=nRT","λ=h/p"],r:0,e:"E=mc² : une faible masse recèle une énergie colossale — principe au cœur de l'énergie nucléaire."},
+    {t:'qcm',d:"religions",q:"Quelle religion monothéiste, fondée sur la Torah, compte Abraham parmi ses patriarches et est la plus ancienne des trois religions abrahamiques ?",o:["L'islam","Le judaïsme","Le christianisme","Le zoroastrisme"],r:1,e:"Le judaïsme ; judaïsme, christianisme et islam se réclament tous d'Abraham, d'où le terme « abrahamique »."},
+    {t:'open',d:"histoire",q:"Quelle cité romaine, ensevelie par l'éruption du Vésuve en 79 apr. J.-C., fut redécouverte figée sous les cendres ?",a:["pompei"],e:"Pompéi ; les cendres ont préservé la vie quotidienne romaine, offrant un témoignage archéologique unique."},
+    {t:'qcm',d:"mathématiques",q:"Quel système de numération, d'origine indienne et transmis par les Arabes, introduisit le zéro comme véritable chiffre ?",o:["Romain","Indo-arabe","Grec","Babylonien"],r:1,e:"Le système indo-arabe ; le zéro positionnel, venu d'Inde, a révolutionné le calcul écrit."},
+    {t:'open',d:"sciences",q:"Quel savant français a mis au point le vaccin contre la rage et donné son nom à un procédé de conservation des aliments ?",a:["pasteur","louis pasteur"],e:"Louis Pasteur ; la pasteurisation chauffe brièvement un liquide pour tuer les microbes sans l'altérer."}
   ],
-  2:[ /* ===== ÉRUDIT ===== */
-    {t:'qcm',q:"Qui a formulé le principe d'incertitude en mécanique quantique ?",o:["Bohr","Heisenberg","Schrödinger","Planck"],r:1,e:"Werner Heisenberg, en 1927."},
-    {t:'open',q:"Quel élément chimique a pour symbole « Au » ?",a:["or"],e:"L'or (du latin aurum)."},
-    {t:'qcm',q:"En quelle année est tombé le mur de Berlin ?",o:["1987","1989","1991","1993"],r:1,e:"Le 9 novembre 1989."},
-    {t:'open',q:"Quel philosophe a écrit la Critique de la raison pure ?",a:["kant","emmanuel kant"],e:"Emmanuel Kant, en 1781."},
-    {t:'qcm',q:"Quelle est la plus grande lune de Jupiter ?",o:["Europe","Io","Ganymède","Callisto"],r:2,e:"Ganymède, plus grande que la planète Mercure."},
-    {t:'open',q:"Quel traité a mis fin à la Première Guerre mondiale en 1919 ?",a:["traite de versailles","versailles"],e:"Le traité de Versailles."},
-    {t:'qcm',q:"Qui a composé La Flûte enchantée ?",o:["Bach","Mozart","Beethoven","Haydn"],r:1,e:"Wolfgang Amadeus Mozart, en 1791."},
-    {t:'open',q:"Comment se nomme la galaxie qui abrite notre système solaire ?",a:["voie lactee"],e:"La Voie lactée."},
-    {t:'qcm',q:"Quel théorème, énoncé au XVIIᵉ siècle, fut démontré par Andrew Wiles en 1994 ?",o:["d'Euler","de Fermat","de Gauss","de Pascal"],r:1,e:"Le dernier théorème de Fermat."},
-    {t:'open',q:"Quelle civilisation a édifié le Machu Picchu ?",a:["incas","inca","les incas"],e:"La civilisation inca, au XVᵉ siècle."},
-    {t:'qcm',q:"Quel est l'organe le plus étendu du corps humain ?",o:["Le foie","La peau","Le poumon","L'intestin"],r:1,e:"La peau."},
-    {t:'open',q:"Qui a écrit À la recherche du temps perdu ?",a:["proust","marcel proust"],e:"Marcel Proust."},
-    {t:'qcm',q:"Quel est l'élément le plus abondant dans l'univers ?",o:["Hydrogène","Hélium","Oxygène","Carbone"],r:0,e:"L'hydrogène, environ 75 % de la matière baryonique."},
-    {t:'open',q:"Qui a écrit La Divine Comédie ?",a:["dante","dante alighieri"],e:"Dante Alighieri, au XIVᵉ siècle."},
-    {t:'qcm',q:"Quelle bataille marque la défaite définitive de Napoléon en 1815 ?",o:["Austerlitz","Iéna","Waterloo","Leipzig"],r:2,e:"Waterloo."},
-    {t:'open',q:"Quel scientifique a énoncé les trois lois du mouvement ?",a:["newton","isaac newton"],e:"Isaac Newton."},
-    {t:'qcm',q:"Quel philosophe a écrit Ainsi parlait Zarathoustra ?",o:["Kant","Hegel","Nietzsche","Schopenhauer"],r:2,e:"Friedrich Nietzsche."},
-    {t:'open',q:"Quelle est la plus grande planète du système solaire ?",a:["jupiter"],e:"Jupiter."},
-    {t:'qcm',q:"En quelle année est signée la Déclaration d'indépendance des États-Unis ?",o:["1773","1776","1789","1791"],r:1,e:"1776."},
-    {t:'open',q:"Quel peintre a réalisé La Persistance de la mémoire (les montres molles) ?",a:["dali","salvador dali"],e:"Salvador Dalí, en 1931."},
-    {t:'qcm',q:"Quel est le plus petit os du corps humain ?",o:["Le marteau","L'enclume","L'étrier","La rotule"],r:2,e:"L'étrier, dans l'oreille moyenne."},
-    {t:'open',q:"Quel empereur romain a fait bâtir un mur dans le nord de la Grande-Bretagne ?",a:["hadrien"],e:"Hadrien (le mur d'Hadrien)."},
-    {t:'qcm',q:"Qui a composé la 9ᵉ symphonie contenant l'« Hymne à la joie » ?",o:["Bach","Mozart","Beethoven","Brahms"],r:2,e:"Ludwig van Beethoven."},
-    {t:'open',q:"Quel est le symbole chimique du sodium ?",a:["na"],e:"Na (du latin natrium)."},
-    {t:'qcm',q:"Qui fut le premier président de la Ve République française ?",o:["Auriol","Coty","De Gaulle","Pompidou"],r:2,e:"Charles de Gaulle, en 1959."},
-    {t:'open',q:"Quel mathématicien grec a donné son nom au théorème sur le triangle rectangle ?",a:["pythagore"],e:"Pythagore."}
+  2:[ /* ===== ÉRUDIT — à construire ===== */
   ],
-  3:[ /* ===== EXTRÊME ===== */
-    {t:'open',q:"Quel élément chimique porte le numéro atomique 79 ?",a:["or"],e:"L'or (Au)."},
-    {t:'qcm',q:"Quel logicien a démontré les théorèmes d'incomplétude ?",o:["Hilbert","Gödel","Turing","Cantor"],r:1,e:"Kurt Gödel, en 1931."},
-    {t:'open',q:"En quelle année sont signés les traités de Westphalie, qui mettent fin à la guerre de Trente Ans ?",a:["1648"],e:"1648."},
-    {t:'qcm',q:"Quelle particule est le médiateur de l'interaction électromagnétique ?",o:["Le gluon","Le photon","Le boson W","Le graviton"],r:1,e:"Le photon."},
-    {t:'open',q:"Quel écrivain irlandais a publié le roman Ulysse en 1922 ?",a:["james joyce","joyce"],e:"James Joyce."},
-    {t:'qcm',q:"Quel philosophe a écrit la Phénoménologie de l'esprit (1807) ?",o:["Kant","Fichte","Hegel","Schelling"],r:2,e:"Georg Wilhelm Friedrich Hegel."},
-    {t:'open',q:"Quel est l'os le plus long du corps humain ?",a:["femur"],e:"Le fémur."},
-    {t:'qcm',q:"Quelle dynastie chinoise précède immédiatement la dynastie Han ?",o:["Zhou","Qin","Tang","Ming"],r:1,e:"La dynastie Qin (221–206 av. J.-C.)."},
-    {t:'open',q:"Quelle unité mesure la résistance électrique ?",a:["ohm"],e:"L'ohm (Ω)."},
-    {t:'qcm',q:"Qui a peint Le Jardin des délices ?",o:["Bruegel","Bosch","Van Eyck","Memling"],r:1,e:"Jérôme Bosch, vers 1500."},
-    {t:'open',q:"Quel traité de 1957 institue la Communauté économique européenne ?",a:["traite de rome","rome"],e:"Le traité de Rome."},
-    {t:'qcm',q:"Quelle est la capitale du Kazakhstan ?",o:["Astana","Almaty","Tachkent","Bichkek"],r:0,e:"Astana (nom rétabli en 2022)."},
-    {t:'open',q:"Quel philosophe a fondé l'école du Lycée à Athènes ?",a:["aristote"],e:"Aristote."},
-    {t:'qcm',q:"Quel élément chimique a pour symbole « W » ?",o:["Uranium","Tungstène","Tantale","Titane"],r:1,e:"Le tungstène (du nom allemand wolfram)."},
-    {t:'open',q:"Quel mathématicien suisse a popularisé les notations « e » et « i » ?",a:["euler","leonhard euler"],e:"Leonhard Euler."},
-    {t:'qcm',q:"En quelle année Constantinople tombe-t-elle aux mains des Ottomans ?",o:["1204","1389","1453","1492"],r:2,e:"1453."},
-    {t:'open',q:"Quel organe produit l'insuline ?",a:["pancreas"],e:"Le pancréas."},
-    {t:'qcm',q:"Quel écrivain russe a écrit Crime et Châtiment ?",o:["Tolstoï","Dostoïevski","Tchekhov","Gogol"],r:1,e:"Fiodor Dostoïevski, en 1866."},
-    {t:'open',q:"Quelle planète possède la rotation la plus lente (le jour le plus long) ?",a:["venus"],e:"Vénus, dont la rotation dure plus longtemps que son année."},
-    {t:'qcm',q:"Quel est le symbole chimique du potassium ?",o:["P","Po","K","Pt"],r:2,e:"K (du latin kalium)."},
-    {t:'open',q:"Quel sociologue français a publié Le Suicide en 1897 ?",a:["durkheim","emile durkheim"],e:"Émile Durkheim."},
-    {t:'qcm',q:"Quelle comète revient près de la Terre environ tous les 76 ans ?",o:["Encke","Halley","Hale-Bopp","Tempel"],r:1,e:"La comète de Halley."},
-    {t:'open',q:"Quel pharaon est associé au tombeau découvert par Howard Carter en 1922 ?",a:["toutankhamon"],e:"Toutânkhamon."},
-    {t:'qcm',q:"Quel est le seul mammifère capable de vol actif ?",o:["L'écureuil volant","La chauve-souris","Le colugo","Le pétrel"],r:1,e:"La chauve-souris ; les autres ne font que planer."},
-    {t:'open',q:"Quelle grandeur physique vaut environ 299 792 458 m/s dans le vide ?",a:["la vitesse de la lumiere","vitesse de la lumiere","celerite de la lumiere"],e:"La vitesse de la lumière dans le vide (c)."},
-    {t:'qcm',q:"Qui a écrit Le Capital ?",o:["Engels","Marx","Proudhon","Bakounine"],r:1,e:"Karl Marx."}
+  3:[ /* ===== EXTRÊME — à construire ===== */
   ]
 };

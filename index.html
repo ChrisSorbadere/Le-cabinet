@@ -334,7 +334,8 @@ $("#startBtn").addEventListener("click",start);
 /* ============ DÉROULÉ ============ */
 function show(id){["home","game","result"].forEach(s=>$("#"+s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
 function start(){
-  if(!BANK[level]||!BANK[level].length){alert("Questions non chargées : vérifie que questions.js est bien présent à côté de index.html.");return;}
+  if(!window.QUESTIONS){alert("Questions non chargées : vérifie que questions.js est bien présent à côté de index.html.");return;}
+  if(!BANK[level]||!BANK[level].length){alert("Ce degré est encore en construction.");return;}
   deck=buildDeck(level); idx=0; score=0; recap=[];
   $("#score").textContent="0"; $("#lvlTag").textContent=LVL_NAME[level];
   show("game"); render();
